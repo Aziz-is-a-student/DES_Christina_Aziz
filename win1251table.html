@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DES - Windows-1251 Table</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow: auto;
+            animation: fadeIn 1.2s ease-in-out;
+            zoom: 1.3
+        }
+
+        .char-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            max-width: 960px;
+            animation: slideUp 0.8s ease-in-out;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        h2 {
+            margin-top: 5px;
+            margin-bottom: 6px;
+            font-weight: normal;
+            color: #555;
+        }
+
+        p {
+            max-width: 800px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+            margin-bottom: 15px;
+        }
+
+        .char-cell {
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .char-cell.alpha {
+            background-color: #fff;
+        }
+
+        .char-cell.space {
+            background-color: rgba(144, 238, 144, 0.2);
+        }
+
+        .char-cell.latin {
+            background-color: rgba(255, 0, 0, 0.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-button {
+            padding: 8px 20px;
+            font-size: 14px;
+            background-color: #1e88e5;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-button:hover {
+            filter: brightness(0.9);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>DES Encryption Process</h1>
+    <h2>Windows-1251 Table</h2>
+    <p>
+        Windows-1251 contains many additional characters, but to keep things simple and focused,
+        this table only shows the Russian Cyrillic alphabet letters.<br>
+        Both uppercase and lowercase letters are presented for clarity.
+    </p>
+    <div class="char-container" id="charContainer"></div>
+
+    <div style="margin-top: 15px; display: flex; justify-content: center; gap: 12px;">
+        <a href="inputbreakdown.html" style="text-decoration: none;">
+            <button class="nav-button">Back</button>
+        </a>
+        <a href="asciitable.html" style="text-decoration: none;">
+            <button class="nav-button">ASCII Table</button>
+        </a>
+    </div>
+
+    <script>
+        const container = document.getElementById("charContainer");
+
+        const controlNames = [
+            'NUL', 'SOH', 'STX', 'ETX', 'EOT', 'ENQ', 'ACK', 'BEL', 'BS', 'TAB', 'LF', 'VT', 'FF', 'CR', 'SO', 'SI',
+            'DLE', 'DC1', 'DC2', 'DC3', 'DC4', 'NAK', 'SYN', 'ETB', 'CAN', 'EM', 'SUB', 'ESC', 'FS', 'GS', 'RS', 'US'
+        ];
+
+        const win1251 = Array(256).fill('').map((_, i) => {
+            if (i < 32) return controlNames[i];
+            if (i === 127) return 'DEL';
+            return String.fromCharCode(i);
+        });
+
+        const overrides = {
+            128: 'Ђ', 129: 'Ѓ', 130: '‚', 131: 'ѓ', 132: '„', 133: '…', 134: '†', 135: '‡',
+            136: '€', 137: '‰', 138: 'Љ', 139: '‹', 140: 'Њ', 141: 'Ќ', 142: 'Ћ', 143: 'Џ',
+            192: 'А', 193: 'Б', 194: 'В', 195: 'Г', 196: 'Д', 197: 'Е', 198: 'Ж', 199: 'З',
+            200: 'И', 201: 'Й', 202: 'К', 203: 'Л', 204: 'М', 205: 'Н', 206: 'О', 207: 'П',
+            208: 'Р', 209: 'С', 210: 'Т', 211: 'У', 212: 'Ф', 213: 'Х', 214: 'Ц', 215: 'Ч',
+            216: 'Ш', 217: 'Щ', 218: 'Ъ', 219: 'Ы', 220: 'Ь', 221: 'Э', 222: 'Ю', 223: 'Я',
+            224: 'а', 225: 'б', 226: 'в', 227: 'г', 228: 'д', 229: 'е', 230: 'ж', 231: 'з',
+            232: 'и', 233: 'й', 234: 'к', 235: 'л', 236: 'м', 237: 'н', 238: 'о', 239: 'п',
+            240: 'р', 241: 'с', 242: 'т', 243: 'у', 244: 'ф', 245: 'х', 246: 'ц', 247: 'ч',
+            248: 'ш', 249: 'щ', 250: 'ъ', 251: 'ы', 252: 'ь', 253: 'э', 254: 'ю', 255: 'я'
+        };
+
+        for (let i in overrides) win1251[i] = overrides[i];
+
+        for (let i = 192; i <= 223; i++) {
+            const cell = document.createElement("div");
+            cell.classList.add("char-cell", "alpha");
+            const ch = win1251[i];
+            cell.innerHTML = `<div><strong>${ch}</strong></div><div><small>${i}</small></div>`;
+            container.appendChild(cell);
+        }
+
+        for (let i = 224; i <= 255; i++) {
+            const cell = document.createElement("div");
+            cell.classList.add("char-cell", "alpha");
+            const ch = win1251[i];
+            cell.innerHTML = `<div><strong>${ch}</strong></div><div><small>${i}</small></div>`;
+            container.appendChild(cell);
+        }
+    </script>
+</body>
+
+</html>

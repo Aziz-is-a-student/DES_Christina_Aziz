@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DES - ASCII Table</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            animation: fadeIn 1.2s ease-in-out;
+            padding: 20px;
+            overflow: auto;
+            zoom: 1.3
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        h2 {
+            margin-top: 5px;
+            margin-bottom: 20px;
+            font-weight: normal;
+            color: #555;
+        }
+
+        .ascii-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            max-width: 960px;
+            animation: slideUp 0.8s ease-in-out;
+        }
+
+        .ascii-cell {
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .ascii-cell.alpha {
+            background-color: rgba(144, 238, 144, 0.1);
+        }
+
+        .ascii-cell.space {
+            background-color: rgba(144, 238, 144, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-button {
+            padding: 8px 20px;
+            font-size: 14px;
+            background-color: #1e88e5;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-button:hover {
+            filter: brightness(0.9);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>DES Encryption Process</h1>
+    <h2 style="margin-bottom: 6px;">ASCII Table</h2>
+    <p
+        style="max-width: 800px; text-align: center; font-size: 14px; color: #666; margin-top: 4px; margin-bottom: 15px;">
+        Characters highlighted in light green are frequently used — the Latin alphabet letters (A–Z, a–z).<br>
+        Note that uppercase and lowercase letters have different ASCII codes.<br>
+        The space character is also highlighted and has the ASCII code 32.
+    </p>
+
+    <div class="ascii-container" id="asciiContainer">
+    </div>
+
+    <script>
+        const container = document.getElementById("asciiContainer");
+        const asciiNames = [
+            'NUL', 'SOH', 'STX', 'ETX', 'EOT', 'ENQ', 'ACK', 'BEL', 'BS', 'TAB', 'LF', 'VT', 'FF', 'CR', 'SO', 'SI',
+            'DLE', 'DC1', 'DC2', 'DC3', 'DC4', 'NAK', 'SYN', 'ETB', 'CAN', 'EM', 'SUB', 'ESC', 'FS', 'GS', 'RS', 'US'
+        ];
+
+        for (let i = 0; i < 128; i++) {
+            const cell = document.createElement("div");
+            cell.classList.add("ascii-cell");
+
+            let charDisplay = '';
+            if (i < 32) {
+                charDisplay = asciiNames[i];
+            } else if (i === 127) {
+                charDisplay = 'DEL';
+            } else {
+                charDisplay = String.fromCharCode(i);
+            }
+
+            if ((i >= 65 && i <= 90) || (i >= 97 && i <= 122)) {
+                cell.classList.add("alpha");
+            }
+
+            if (i === 32) {
+                cell.classList.add("space");
+            }
+
+            cell.innerHTML = `<div><strong>${charDisplay}</strong></div><div><small>${i}</small></div>`;
+            container.appendChild(cell);
+        }
+    </script>
+</body>
+<div style="margin-top: 15px; display: flex; justify-content: center; gap: 12px;">
+    <a href="inputbreakdown.html" style="text-decoration: none;">
+        <button class="nav-button">Back</button>
+    </a>
+    <a href="win1251table.html" style="text-decoration: none;">
+        <button class="nav-button">Windows-1251 Table</button>
+    </a>
+</div>
+
+</html>
